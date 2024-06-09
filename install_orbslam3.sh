@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Update package list and install gedit
 echo "Installing gedit..."
 sudo apt update
@@ -177,3 +176,4 @@ else
 fi
 
 echo "Setup completed successfully!"
+
