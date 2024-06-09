@@ -1,14 +1,10 @@
-
-
-
 ### ORBSLAM 3 on WSL Demonstration:
 
 Here's a video clip of ORB-SLAM3 in action:
 
-<video width="320" height="240" controls loop>
-  <source src="https://youtu.be/kMYtwcelbzk" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<p align="center">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/kMYtwcelbzk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</p>
 
 
 
