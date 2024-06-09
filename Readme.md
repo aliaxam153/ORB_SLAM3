@@ -16,7 +16,6 @@
 
 ## ORB-SLAM3 Installation, Integration with ROS Noetic on WSL 
 Following are the instruction to install ORB-SLAM3, I have referenced this [repo](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/master) for the installation in Ubuntu 20.04 along with further changes added by me.
-## Prerequisites:
 ### Install and setup WSL2 in Windows Machine:
 Here are the steps to install a specific Ubuntu distribution on WSL2 from the Microsoft Store:
 - **Enable WSL2:** Before you install any Linux distribution, make sure you have WSL2 enabled on your Windows machine. You can do this by following the instructions in the official Microsoft documentation ([WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)).
@@ -37,8 +36,25 @@ Here are the steps to install a specific Ubuntu distribution on WSL2 from the Mi
 Tool for editing scripts:
 ```
 sudo apt install gedit
-
 ```
+
+## Bash Installation Guide:
+Download this script file:
+After download place it in directory: ```cd ~/```
+Make the script executable:
+```
+chmod +x install_orbslam3.sh
+```
+Run the script:
+```
+./install_orbslam3.sh
+```
+This script will automate the installation process for ORB-SLAM3, Pangolin, OpenCV 4.4.0, and ROS Noetic on an Ubuntu 20.04 system, including switching the GCC and G++ versions, installing necessary dependencies, and verifying the installations. Adjust the script as needed for any specific requirements.
+
+
+## Manual Installation Guide:
+Alternative method is to install by manual running the commands on the ubuntu terminal. Follow the instruction below:
+
 ### a) Install C++11 Compiler:
 > We require C++11 compiler to build some dependencies. So, refer to this link to install the compiler: 
 [C++11_Compiler.md](https://github.com/aliaxam153/ORBSLAM3-WSL/blob/main/C++11_Compiler.md)
