@@ -1,6 +1,7 @@
 ### ORBSLAM 3 on WSL Demonstration:
-
-![ORBSLAM3-Demo-ezgif com-optimize](https://github.com/aliaxam153/ORBSLAM3-WSL/assets/146977640/d71efab3-655d-4c48-823a-de32ea22a349)
+<p align="center">
+  <img src="https://github.com/aliaxam153/ORBSLAM3-WSL/assets/146977640/d71efab3-655d-4c48-823a-de32ea22a349" width="800" height="400" alt="ORB-SLAM3 in action">
+</p>
 
 
 ## Installation of ORB-SLAM3:
