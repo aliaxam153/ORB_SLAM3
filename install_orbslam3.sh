@@ -4,22 +4,16 @@
 echo "Installing gedit..."
 sudo apt update
 sudo apt install -y gedit
-
 # Install build-essential package
 echo "Installing build-essential package..."
 sudo apt update && sudo apt install -y build-essential
-
 # Add the repository for the latest G++ version (if needed for C++11)
 echo "Adding PPA repository for latest G++ version..."
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 sudo apt update
-
-
 # Install specific version of G++ (e.g., G++-11)
 echo "Installing G++-11..."
 sudo apt install -y g++-11
-
-
 # Add the default G++ to alternatives system
 echo "Adding G++-9 to alternatives..."
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 20
