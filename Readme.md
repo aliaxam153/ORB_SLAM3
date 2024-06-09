@@ -98,7 +98,7 @@ Execute build_ros.sh script:
 chmod +x build_ros.sh
 ./build_ros.sh
 ```
-## Run Example on ROS
+## Test Run an example on ROS-ORBSLAM3
 Running RGB_D Node
 For an RGB-D input from topics /camera/rgb/image_raw and /camera/depth_registered/image_raw, run node ORB_SLAM3/RGBD. You will need to provide the vocabulary file and a settings file. See the RGB-D example above.
 ```rosrun ORB_SLAM3 RGBD PATH_TO_VOCABULARY PATH_TO_SETTINGS_FILE```
@@ -107,9 +107,15 @@ Running ROS example: Download a rosbag (e.g. V1_02_medium.bag) from the [EuRoC d
 
 Open 3 tabs on the terminal and run the following command at each tab for a Stereo-Inertial configuration:
 
-- Terminal_1: ```roscore```
-- Terminal_2: ``` rosbag play --pause ~/MH_01_easy.bag /cam0/image_raw:=/camera/left/image_raw /cam1/image_raw:=/camera/right/image_raw /imu0:=/imu```
-- Terminal_3:
+- Terminal-1:
+```
+roscore
+```
+- Terminal-2:
+```
+rosbag play --pause ~/MH_01_easy.bag /cam0/image_raw:=/camera/left/image_raw /cam1/image_raw:=/camera/right/image_raw /imu0:=/imu
+```
+- Terminal-3:
 ```
 cd ~/Packages/ORB_SLAM3/
 rosrun ORB_SLAM3 Stereo_Inertial ~/dev/ORB_SLAM3/Vocabulary/ORBvoc.txt ~/dev/ORB_SLAM3/Examples/Stereo-Inertial/EuRoC.yaml true
