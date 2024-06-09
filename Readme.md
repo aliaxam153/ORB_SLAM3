@@ -4,7 +4,7 @@
 Following are the instruction to install ORB-SLAM3, I have referenced this [repo](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/master) for the installation in Ubuntu 20.04 along with further changes added by me.
 ### Install Pangolin
 > For installation procedure of Pangolin refer to this link: 
-[Pangolin.md](https://github.com/aliaxam153/ORB-SLAM3-MINOS-Installation-Integration-in-WSL/blob/main/Pangolin.md)
+[Pangolin.md](https://github.com/aliaxam153/ORBSLAM3-WSL/blob/main/Pangolin.md)
 
 ### Install OpenCV 4.4.0
 You must switch from default g++ & gcc version 11 the version 9 using the following command.
@@ -15,7 +15,7 @@ Similarly, we use the following command for GCC:
 ```sudo update-alternatives --config gcc```
 Select gcc-9 by pressing 2 in prompt.
 > For installation procedure of OpenCV refer to this link: 
-[OpenCV.md](https://github.com/aliaxam153/ORB-SLAM3-MINOS-Installation-Integration-in-WSL/blob/main/OpenCV.md)
+[OpenCV.md](https://github.com/aliaxam153/ORBSLAM3-WSL/blob/main/OpenCV.md)
 
 ### Installation of ROS Noetic
 Follow this link for installation: [ROS-Noetic-TwoLineInstall](https://wiki.ros.org/ROS/Installation/TwoLineInstall/)
