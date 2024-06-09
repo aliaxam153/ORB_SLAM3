@@ -3,7 +3,7 @@
 # Update package list and install gedit
 echo "Installing gedit..."
 sudo apt update
-sudo apt install -y gedit
+sudo apt install gedit -y
 # Install build-essential package
 echo "Installing build-essential package..."
 sudo apt update && sudo apt install -y build-essential
@@ -18,7 +18,6 @@ sudo apt install -y g++-11
 echo "Adding G++-9 to alternatives..."
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 20
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 20
-
 # Add other versions to alternatives
 echo "Adding G++-11 to alternatives..."
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 50
