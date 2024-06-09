@@ -39,10 +39,14 @@ sudo apt install gedit
 ```
 
 ## Bash Installation Guide:
-Download this script file: https://github.com/aliaxam153/ORBSLAM3-WSL/blob/main/install_orbslam3.sh
-
-After download place it in directory: ```/home/username/```
-
+Go to this directory:
+```
+cd ~/dev
+```
+Download this script file: 
+```
+wget https://raw.githubusercontent.com/aliaxam153/ORBSLAM3-WSL/main/install_orbslam3.sh
+```
 Make the script executable:
 ```
 chmod +x install_orbslam3.sh
