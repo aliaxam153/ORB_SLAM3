@@ -41,7 +41,7 @@ sudo apt install gedit
 ```
 ### a) Install C++11 Compiler:
 > We require C++11 compiler to build some dependencies. So, refer to this link to install the compiler: 
-[C++11_Compiler.md](https://github.com/aliaxam153/ORB-SLAM3-MINOS-Installation-Integration-in-WSL/blob/main/C++11_Compiler.md)
+[C++11_Compiler.md](https://github.com/aliaxam153/ORBSLAM3-WSL/blob/main/C++11_Compiler.md)
 > 
 
 ### b) Install Pangolin
