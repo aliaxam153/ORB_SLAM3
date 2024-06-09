@@ -1,4 +1,8 @@
-![image](https://github.com/aliaxam153/ORB-SLAM3-MINOS-Installation-Integration-in-WSL/assets/146977640/6d014486-c34d-4673-9385-fbfff2547797)
+
+
+
+https://github.com/aliaxam153/ORBSLAM3-WSL/assets/146977640/762e8a56-3380-4ed4-91dc-75ea330c93f7
+
 
 ## Installation of ORB-SLAM3:
 Following are the instruction to install ORB-SLAM3, I have referenced this [repo](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/master) for the installation in Ubuntu 20.04 along with further changes added by me.
