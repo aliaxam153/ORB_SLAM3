@@ -1,7 +1,15 @@
 
 
 
-https://github.com/aliaxam153/ORBSLAM3-WSL/assets/146977640/762e8a56-3380-4ed4-91dc-75ea330c93f7
+### ORBSLAM 3 on WSL Demonstration:
+
+Here's a video clip of ORB-SLAM3 in action:
+
+<video width="320" height="240" controls loop>
+  <source src="https://youtu.be/kMYtwcelbzk" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 
 
 ## Installation of ORB-SLAM3:
