@@ -41,7 +41,7 @@ sudo apt install gedit
 ## Bash Installation Guide:
 Go to this directory:
 ```
-mkdir -p ~/dev
+mkdir -p ~/dev && cd ~/dev
 ```
 Download this script file: 
 ```
