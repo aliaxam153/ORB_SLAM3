@@ -1,10 +1,6 @@
 ### ORBSLAM 3 on WSL Demonstration:
 
-Here's a video clip of ORB-SLAM3 in action:
-
-[![ORB-SLAM3 in action](https://img.youtube.com/vi/kMYtwcelbzk/0.jpg)](https://www.youtube.com/watch?v=kMYtwcelbzk)
-
-
+![ORBSLAM3-Demo-ezgif com-optimize](https://github.com/aliaxam153/ORBSLAM3-WSL/assets/146977640/d71efab3-655d-4c48-823a-de32ea22a349)
 
 
 ## Installation of ORB-SLAM3:
