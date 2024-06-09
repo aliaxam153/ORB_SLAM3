@@ -2,9 +2,8 @@
 
 Here's a video clip of ORB-SLAM3 in action:
 
-<p align="center">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/kMYtwcelbzk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</p>
+[![ORB-SLAM3 in action](https://img.youtube.com/vi/kMYtwcelbzk/0.jpg)](https://www.youtube.com/watch?v=kMYtwcelbzk)
+
 
 
 
