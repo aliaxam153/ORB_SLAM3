@@ -2,7 +2,7 @@
 # Update package list and install gedit
 echo "Installing gedit..."
 sudo apt update
-sudo apt install gedit -y
+sudo apt install -y gedit 
 # Install build-essential package
 echo "Installing build-essential package..."
 sudo apt update && sudo apt install -y build-essential
@@ -24,10 +24,14 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 50
 
 # Switch to G++ and GCC version 9
 echo "Switching to G++ version 9..."
-sudo update-alternatives --config g++-9
+sudo update-alternatives --config g++ <<EOF
+2
+EOF
 
 echo "Switching to GCC version 9..."
-sudo update-alternatives --config gcc-9
+sudo update-alternatives --config gcc <<EOF
+2
+EOF
 
 # Verify installation
 echo "Verifying G++ installation..."
@@ -121,6 +125,11 @@ cd ORB_SLAM3
 
 echo "Switching compiler back to default C++11 compiler..."
 sudo update-alternatives --config g++ <<EOF
+1
+EOF
+
+echo "Switching to GCC version 11..."
+sudo update-alternatives --config gcc <<EOF
 1
 EOF
 
