@@ -45,7 +45,7 @@ git clone https://github.com/stevenlovegrove/Pangolin.git
 
 echo "Running dry-run for Pangolin prerequisites..."
 cd Pangolin
-./scripts/install_prerequisites.sh --dry-run recommended -y
+./scripts/install_prerequisites.sh --dry-run recommended
 
 echo "Fixing catch2 check from install_prerequisites.sh..."
 sed -i '/catch2/d' ./scripts/install_prerequisites.sh
