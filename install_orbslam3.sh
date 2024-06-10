@@ -120,7 +120,7 @@ chmod +x ./ros_install_noetic.sh
 # Install ORB-SLAM3
 echo "Cloning ORB-SLAM3..."
 cd ~/dev
-git clone https://github.com/aliaxam153/ORBSLAM3-WSL.git
+git clone https://github.com/aliaxam153/ORBSLAM3.git
 cd ORB_SLAM3
 
 echo "Switching compiler back to default C++11 compiler..."
@@ -132,26 +132,6 @@ echo "Switching to GCC version 11..."
 sudo update-alternatives --config gcc <<EOF
 1
 EOF
-
-echo "Building ORB-SLAM3..."
-chmod +x build.sh
-./build.sh || ./build.sh || ./build.sh
-
-# Integrate with ORB-SLAM3 ROS
-echo "Integrating ORB-SLAM3 with ROS..."
-echo "Please add the following line to your .bashrc file:"
-echo 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:/home/user/dev/ORB_SLAM3/Examples/ROS'
-echo 'You can use the following command to edit your .bashrc file:'
-echo 'gedit ~/.bashrc'
-
-# Provide instruction to source .bashrc
-echo "After editing .bashrc, run the following command to source it:"
-echo "source ~/.bashrc"
-
-# Build ROS integration
-echo "Building ROS integration for ORB-SLAM3..."
-chmod +x build_ros.sh
-./build_ros.sh
 
 # Verify all installations
 echo "Verifying all installations..."
@@ -175,13 +155,6 @@ if dpkg -l | grep -q "ros-noetic"; then
     echo "ROS Noetic installed successfully."
 else
     echo "ROS Noetic installation failed."
-fi
-
-# Verify ORB-SLAM3
-if [ -d "~/dev/ORB_SLAM3" ]; then
-    echo "ORB-SLAM3 installed successfully."
-else
-    echo "ORB-SLAM3 installation failed."
 fi
 
 echo "Setup completed successfully!"
