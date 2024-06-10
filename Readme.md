@@ -45,7 +45,7 @@ sudo apt install gedit
 >```
 >Download this script file: 
 >```
->wget https://raw.githubusercontent.com/aliaxam153/ORB_SLAM3/main/install_orbslam3.sh
+>wget https://raw.githubusercontent.com/aliaxam153/ORB_SLAM3/main/build_prerequisities.sh
 >```
 >Make the script executable:
 >```
