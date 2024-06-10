@@ -99,7 +99,20 @@ cd ~/dev
 cd ORB_SLAM3
 ```
 Before installation change compiler back to default C++11 compiler.
-Now Simply just run (if you encounter compiler, try to run the this shell script 2 or 3 more time. It works for me.)
+You must switch from default g++ & gcc version 11 the version 9 using the following command.
+```
+sudo update-alternatives --config g++
+```
+This will prompt you to select which version of G++ you wish to be the default by typing the selection number. 
+Select g++-9 by pressing 1.
+
+Similarly, we use the following command for GCC:
+```
+sudo update-alternatives --config gcc
+```
+Select gcc-9 by pressing 1 in prompt.
+
+Now simply just run (if you encounter compiler, try to run the this shell script 2 or 3 more time. It works for me.)
 ```
 chmod +x build.sh
 ./build.sh
