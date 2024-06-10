@@ -49,11 +49,11 @@ sudo apt install gedit
 >```
 >Make the script executable:
 >```
->chmod +x install_orbslam3.sh
+>chmod +x build_prerequisities.sh
 >```
 >Run the script:
 >```
->./install_orbslam3.sh
+>./build_prerequisities.sh
 >```
 > This script will automate the installation process for Pangolin, OpenCV 4.4.0, and
 > ROS Noetic on an Ubuntu 20.04 system, including switching the GCC and G++ versions, installing
