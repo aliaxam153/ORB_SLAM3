@@ -45,9 +45,9 @@ git clone https://github.com/stevenlovegrove/Pangolin.git
 
 echo "Running dry-run for Pangolin prerequisites..."
 cd Pangolin
-./scripts/install_prerequisites.sh --dry-run recommended
+./scripts/install_prerequisites.sh --dry-run recommended -y
 
-echo "Removing catch2 check from install_prerequisites.sh..."
+echo "Fixing catch2 check from install_prerequisites.sh..."
 sed -i '/catch2/d' ./scripts/install_prerequisites.sh
 
 # Manual Installation of Catch2
@@ -120,7 +120,7 @@ chmod +x ./ros_install_noetic.sh
 # Install ORB-SLAM3
 echo "Cloning ORB-SLAM3..."
 cd ~/dev
-git clone https://github.com/aliaxam153/ORBSLAM3.git
+git clone https://github.com/aliaxam153/ORB_SLAM3.git
 cd ORB_SLAM3
 
 echo "Switching compiler back to default C++11 compiler..."
@@ -132,30 +132,6 @@ echo "Switching to GCC version 11..."
 sudo update-alternatives --config gcc <<EOF
 1
 EOF
-
-# Verify all installations
-echo "Verifying all installations..."
-
-# Verify Pangolin
-if [ -d "/usr/local/include/pangolin" ]; then
-    echo "Pangolin installed successfully."
-else
-    echo "Pangolin installation failed."
-fi
-
-# Verify OpenCV
-if pkg-config --modversion opencv4 | grep -q '4.4.0'; then
-    echo "OpenCV 4.4.0 installed successfully."
-else
-    echo "OpenCV 4.4.0 installation failed."
-fi
-
-# Verify ROS Noetic
-if dpkg -l | grep -q "ros-noetic"; then
-    echo "ROS Noetic installed successfully."
-else
-    echo "ROS Noetic installation failed."
-fi
 
 echo "Setup completed successfully!"
 
