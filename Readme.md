@@ -14,6 +14,11 @@
 > 
 > ORB-SLAM3: https://github.com/UZ-SLAMLab/ORB_SLAM3/
 
+## Video Guide:
+If you have trouble understanding the script based process for setting up ORB_SLAM3 in your local device, then watch and follow the process shown in this video:
+
+https://www.youtube.com/watch?v=1JnIU3kLH0c
+
 ## Pre-requisities: 
 Following are the instruction to install ORB-SLAM3, I have referenced this [repo](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/master) for the installation in Ubuntu 20.04 along with further changes added by me.
 ### Install and setup WSL2 in Windows Machine:
