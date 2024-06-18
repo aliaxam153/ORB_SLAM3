@@ -123,6 +123,49 @@ cd ~/dev
 git clone https://github.com/aliaxam153/ORB_SLAM3.git
 cd ORB_SLAM3
 
+# Clone the repository
+echo "Cloning ORB-SLAM3..."
+
+cd ~/dev
+if git clone https://github.com/aliaxam153/ORB_SLAM3.git; then
+    echo "Repository cloned successfully."
+    cd ORB_SLAM3
+    # Define the line to add
+    LINE1_TO_ADD="source /opt/ros/noetic/setup.bash"
+    LINE2_TO_ADD="export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/dev/ORB_SLAM3/Examples/ROS"
+    # Check if the line already exists in ~/.bashrc
+    if ! grep -Fxq "$LINE1_TO_ADD" ~/.bashrc
+    then
+        # Add the line to ~/.bashrc
+        echo "$LINE1_TO_ADD" >> ~/.bashrc
+        echo "Added ROS setup to ~/.bashrc"
+    else
+        echo "ROS setup already in ~/.bashrc"
+    fi
+
+    # Source the ~/.bashrc to apply changes
+    source ~/.bashrc
+    echo "Sourced ~/.bashrc"
+
+    # Check if the line already exists in ~/.bashrc
+    if ! grep -Fxq "$LINE2_TO_ADD" ~/.bashrc
+    then
+        # Add the line to ~/.bashrc
+        echo "$LINE2_TO_ADD" >> ~/.bashrc
+        echo "Added ORBSLAM3 ROS Package setup to ~/.bashrc"
+    else
+        echo "ORBSLAM3 ROS Package setup already in ~/.bashrc"
+    fi
+
+    # Source the ~/.bashrc to apply changes
+    source ~/.bashrc
+    echo "Sourced ~/.bashrc"
+ 
+else
+    echo "Failed to clone the repository."
+    exit 1
+fi
+
 echo "Switching compiler back to default C++11 compiler..."
 sudo update-alternatives --config g++ <<EOF
 1
@@ -132,6 +175,14 @@ echo "Switching to GCC version 11..."
 sudo update-alternatives --config gcc <<EOF
 1
 EOF
+
+echo "Build to ORB_SLAM3 Package..."
+chmod +x build.sh
+./build.sh
+
+echo "Build to ORB_SLAM3 ROS Package..."
+chmod +x build_ros.sh
+./build_ros.sh
 
 echo "Setup completed successfully!"
 
