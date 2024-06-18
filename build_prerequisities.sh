@@ -26,12 +26,14 @@ echo "##########################################################################
 echo ">>> {Step 1: Handling Required Dependencies to build ORBSLAM3 and its packages}"
 echo ""
 sudo apt update && sudo apt upgrade -y
-( sudo apt-get install -y gedit pv dialog ) 2>&1 | pv -l -s 7 > /dev/null
+OUTPUT_SIZE=$(sudo apt-get install -y gedit pv dialog --print-uris | wc -c)
+( sudo apt-get install -y gedit pv dialog ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
+echo ""
 
 # Install build-essential package
 echo ">> Installing build-essential package..."
-echo ""
-( sudo apt update && sudo apt-get install -y build-essential ) 2>&1 | pv -l -s 212 > /dev/null
+OUTPUT_SIZE=$(sudo apt update && sudo apt-get install -y build-essential --print-uris | wc -c)
+( sudo apt update && sudo apt-get install -y build-essential ) 2>&1 |pv -s $OUTPUT_SIZE > /dev/null
 echo ">> build-essential packages are installed."
 echo ""
 
@@ -40,14 +42,14 @@ echo ">>> {Step 2: Install and Setup C++11 Compiler}"
 echo ""
 # Add the repository for the latest G++ version (if needed for C++11)
 echo ">> Adding PPA repository to get the latest G++ version for Current Distro..."
-echo ""
-( sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y && sudo apt update ) 2>&1 | pv -l -s 21 > /dev/null
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y && sudo apt update
 echo ">> PPA repository added."
 echo ""
 
 # Install g++-11
 echo ">> Installing g++-11..."
-( sudo apt install -y g++-11 ) 2>&1 | pv -l -s 108 > /dev/null
+OUTPUT_SIZE=$(sudo apt install -y g++-11 --print-uris | wc -c)
+( sudo apt install -y g++-11 ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
 echo ">> g++-11 installation completed."
 echo ""
 
@@ -78,7 +80,6 @@ g++ --version && gcc --version
 echo ""
 
 echo ">> Adding Misc Repositories..."
-echo ""
 sudo add-apt-repository universe
 sudo add-apt-repository restricted
 sudo add-apt-repository multiverse
@@ -86,8 +87,7 @@ echo ">> Added Misc Repositories."
 echo ""
 
 echo ">> Refresh all installed packages..."
-echo ""
-( sudo apt update ) 2>&1 | pv -l -s 12 > /dev/null
+sudo apt update
 echo ""
 
 echo "#######################################################################################################################"
@@ -100,8 +100,8 @@ echo ">> Pangolin Installation"
 echo ""
 echo "> Cloning Pangolin..."
 REPO_URL="https://github.com/stevenlovegrove/Pangolin.git"
-
-( git clone $REPO_URL ) 2>&1 | pv -l -s 1 > /dev/null
+OUTPUT_SIZE=$(git clone $REPO_URL --print-uris | wc -c)
+( git clone $REPO_URL ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null > /dev/null
 if [ $? -eq 0 ]; then
     echo "> Cloning Completed"  
 else
@@ -111,22 +111,27 @@ fi
 
 echo "> Running dry-run for Pangolin prerequisites..."
 cd Pangolin
-( ./scripts/install_prerequisites.sh --dry-run recommended) 2>&1 | pv -l -s 11 > /dev/null
+./scripts/install_prerequisites.sh --dry-run recommended
+echo ""
 echo "> Fixing catch2 check from install_prerequisites.sh..."
 sed -i '/catch2/d' ./scripts/install_prerequisites.sh
+echo ""
     
 # Manual Installation of Catch2############################################################
 echo "> Cloning Catch2 repository..."
 REPO_URL="https://github.com/catchorg/Catch2.git"
-( git clone $REPO_URL ) 2>&1 | pv -l -s 100 > /dev/null
+OUTPUT_SIZE=$(git clone $REPO_URL --print-uris | wc -c)
+( git clone $REPO_URL ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
 if [ $? -eq 0 ]; then
     echo "> Cloning Completed"
     echo ""
     echo "> Building Catch2..."
     echo ""
     cd Catch2
-    ( cmake -Bbuild -H. -DBUILD_TESTING=OFF ) 2>&1 | pv -l -s 100 > /dev/null
-    ( sudo cmake --build build/ --target install ) 2>&1 | pv -l -s 100 > /dev/null
+    OUTPUT_SIZE=$(cmake -Bbuild -H. -DBUILD_TESTING=OFF --print-uris | wc -c)
+    ( cmake -Bbuild -H. -DBUILD_TESTING=OFF ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
+    OUTPUT_SIZE=$(cmake --build build/ --target install --print-uris | wc -c)
+    ( sudo cmake --build build/ --target install ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
     echo ""
 else
     echo "> Failed to clone the Catch2 repository."
@@ -136,7 +141,7 @@ fi
 # Install dependencies for Pangolin
 echo "> Installing Pangolin dependencies..."
 cd ~/dev/Pangolin
-( sudo ./scripts/install_prerequisites.sh recommended ) 2>&1 | pv -l -s 100 > /dev/null
+sudo ./scripts/install_prerequisites.sh recommended
 if [ $? -eq 0 ]; then
     echo "> Dependencies installation completed."
 else
@@ -147,15 +152,16 @@ fi
 # Build & Install Pangolin
 echo "> Building and installing Pangolin..."
 mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release 2>&1 | pv -l -s 100 > /dev/null
+OUTPUT_SIZE=$(cmake .. -DCMAKE_BUILD_TYPE=Release --print-uris | wc -c)
+cmake .. -DCMAKE_BUILD_TYPE=Release 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
 if [ $? -eq 0 ]; then
     echo "> CMake configuration completed."
 else
     echo "> CMake configuration failed."
     exit 1
 fi
-
-make -j8 2>&1 | pv -l -s 100 > /dev/null
+OUTPUT_SIZE=$(make -j8 --print-uris | wc -c)
+make -j8 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
 if [ $? -eq 0 ]; then
     echo "> Make completed."
 else
@@ -173,24 +179,23 @@ fi
 
 
 echo "> Updating package list..."
-( sudo apt update ) 2>&1 | pv -l -s 100 > /dev/null
+sudo apt update
 echo ""
 
 # OpenCV Installation Guide on Ubuntu 20.04
 echo "#######################################################################################################################"
 echo ">> OpenCV Installation"
 echo ""
-
-# Define the repository URL for OpenCV
-REPO_URL="https://github.com/opencv/opencv.git"
-
 # Ensure the dev directory exists
 mkdir -p ~/dev
 cd ~/dev
 
 # Clone OpenCV with a progress bar
 echo "> Cloning OpenCV..."
-( git clone $REPO_URL ) 2>&1 | pv -l -s 100 > /dev/null
+# Define the repository URL for OpenCV
+REPO_URL="https://github.com/opencv/opencv.git"
+OUTPUT_SIZE=$(git clone $REPO_URL --print-uris | wc -c)
+( git clone $REPO_URL ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
 if [ $? -eq 0 ]; then
     echo "> Cloning Completed"
 else
@@ -210,12 +215,12 @@ fi
 
 # Install necessary dependencies
 echo "> Installing dependencies for OpenCV..."
-( sudo apt install -y build-essential cmake git pkg-config libgtk-3-dev \
+sudo apt install -y build-essential cmake git pkg-config libgtk-3-dev \
     libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
     libxvidcore-dev libx264-dev libjpeg-dev libpng-dev libtiff-dev \
     gfortran openexr libatlas-base-dev python3-dev python3-numpy \
     libtbb2 libtbb-dev libdc1394-22-dev libopenexr-dev \
-    libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev ) 2>&1 | pv -l -s 200 > /dev/null
+    libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
 if [ $? -eq 0 ]; then
     echo "> Dependencies installed successfully"
 else
@@ -229,8 +234,12 @@ mkdir build && cd build
 
 # Configure the build with CMake
 echo "> Configuring OpenCV build with CMake..."
+
+OUTPUT_SIZE=$(cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local .. --print-uris | wc -c)
+    
 ( cmake -D CMAKE_BUILD_TYPE=RELEASE \
-    -D CMAKE_INSTALL_PREFIX=/usr/local .. ) 2>&1 | pv -l -s 100 > /dev/null
+    -D CMAKE_INSTALL_PREFIX=/usr/local .. ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
 if [ $? -eq 0 ]; then
     echo "> CMake configuration completed successfully"
 else
@@ -240,7 +249,8 @@ fi
 
 # Build and install OpenCV
 echo "> Building and installing OpenCV..."
-( make -j4 ) 2>&1 | pv -l -s 1000 > /dev/null
+OUTPUT_SIZE=$(make -j8 --print-uris | wc -c)
+make -j8 2>&1 | pv -s $OUTPUT_SIZE > /dev/null
 if [ $? -eq 0 ]; then
     echo "> OpenCV built successfully"
 else
@@ -273,7 +283,10 @@ cd ~/dev
 
 # Clone the repository
 echo "Cloning ORB-SLAM3..."
-if git clone https://github.com/aliaxam153/ORB_SLAM3.git; then
+REPO_URL="https://github.com/aliaxam153/ORB_SLAM3.git"
+OUTPUT_SIZE=$(git clone $REPO_URL --print-uris | wc -c)
+( git clone $REPO_URL ) 2>&1 | pv -s $OUTPUT_SIZE > /dev/null > /dev/null
+if git clone $REPO_URL ; then
     echo "Repository cloned successfully."
     cd ORB_SLAM3
 
