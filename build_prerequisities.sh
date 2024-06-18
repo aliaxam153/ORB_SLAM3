@@ -26,12 +26,12 @@ echo "##########################################################################
 echo ">>> {Step 1: Handling Required Dependencies to build ORBSLAM3 and its packages}"
 echo ""
 sudo apt update && sudo apt upgrade -y
-( sudo apt-get install -y gedit pv dialog ) 2>&1 | pv -l -s 100 > /dev/null
+( sudo apt-get install -y gedit pv dialog ) 2>&1 | pv -l -s 7 > /dev/null
 
 # Install build-essential package
 echo ">> Installing build-essential package..."
 echo ""
-( sudo apt update && sudo apt-get install -y build-essential ) 2>&1 | pv -l -s 100 > /dev/null
+( sudo apt update && sudo apt-get install -y build-essential ) 2>&1 | pv -l -s 212 > /dev/null
 echo ">> build-essential packages are installed."
 echo ""
 
@@ -41,13 +41,13 @@ echo ""
 # Add the repository for the latest G++ version (if needed for C++11)
 echo ">> Adding PPA repository to get the latest G++ version for Current Distro..."
 echo ""
-( sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y && sudo apt update ) 2>&1 | pv -l -s 100 > /dev/null
+( sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y && sudo apt update ) 2>&1 | pv -l -s 21 > /dev/null
 echo ">> PPA repository added."
 echo ""
 
 # Install g++-11
 echo ">> Installing g++-11..."
-( sudo apt install -y g++-11 ) 2>&1 | pv -l -s 100 > /dev/null
+( sudo apt install -y g++-11 ) 2>&1 | pv -l -s 108 > /dev/null
 echo ">> g++-11 installation completed."
 echo ""
 
@@ -87,7 +87,7 @@ echo ""
 
 echo ">> Refresh all installed packages..."
 echo ""
-( sudo apt update ) 2>&1 | pv -l -s 100 > /dev/null
+( sudo apt update ) 2>&1 | pv -l -s 12 > /dev/null
 echo ""
 
 echo "#######################################################################################################################"
@@ -101,7 +101,7 @@ echo ""
 echo "> Cloning Pangolin..."
 REPO_URL="https://github.com/stevenlovegrove/Pangolin.git"
 
-( git clone $REPO_URL ) 2>&1 | pv -l -s 100 > /dev/null
+( git clone $REPO_URL ) 2>&1 | pv -l -s 1 > /dev/null
 if [ $? -eq 0 ]; then
     echo "> Cloning Completed"  
 else
@@ -111,7 +111,7 @@ fi
 
 echo "> Running dry-run for Pangolin prerequisites..."
 cd Pangolin
-( ./scripts/install_prerequisites.sh --dry-run recommended) 2>&1 | pv -l -s 100 > /dev/null
+( ./scripts/install_prerequisites.sh --dry-run recommended) 2>&1 | pv -l -s 11 > /dev/null
 echo "> Fixing catch2 check from install_prerequisites.sh..."
 sed -i '/catch2/d' ./scripts/install_prerequisites.sh
     
@@ -128,9 +128,6 @@ if [ $? -eq 0 ]; then
     ( cmake -Bbuild -H. -DBUILD_TESTING=OFF ) 2>&1 | pv -l -s 100 > /dev/null
     ( sudo cmake --build build/ --target install ) 2>&1 | pv -l -s 100 > /dev/null
     echo ""
-    echo "> Verifying Catch2 installed path: "
-    ls /usr/local/include/catch2
-    echo ""
 else
     echo "> Failed to clone the Catch2 repository."
     exit 1
@@ -138,7 +135,7 @@ fi
 
 # Install dependencies for Pangolin
 echo "> Installing Pangolin dependencies..."
-cd Pangolin
+cd ~/dev/Pangolin
 ( sudo ./scripts/install_prerequisites.sh recommended ) 2>&1 | pv -l -s 100 > /dev/null
 if [ $? -eq 0 ]; then
     echo "> Dependencies installation completed."
@@ -178,8 +175,6 @@ fi
 echo "> Updating package list..."
 ( sudo apt update ) 2>&1 | pv -l -s 100 > /dev/null
 echo ""
-
-#!/bin/bash
 
 # OpenCV Installation Guide on Ubuntu 20.04
 echo "#######################################################################################################################"
