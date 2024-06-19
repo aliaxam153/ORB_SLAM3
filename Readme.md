@@ -53,8 +53,7 @@ You can follow either one.
 > necessary dependencies, and verifying the installations.
 
 ### 2) Manual Script-by-Script Installation Guide:
-> Alternative method is to install by manual running the commands on the ubuntu terminal. Follow
-> the instruction below:
+> Alternative method is to install by manual running the commands on the ubuntu terminal. Refer to this guide: [manual_install_orbslam3.md](https://github.com/aliaxam153/ORB_SLAM3/blob/main/manual_install_orbslam3.md)
 
 ## Build & Install ORB-SLAM3
 Now, we install ORB-SLAM3. Use the ORB_SLAM3 file given in the repository, it is a modded version which works with ROS Noetic
