@@ -19,31 +19,19 @@ If you have trouble understanding the script based process for setting up ORB_SL
 
 https://www.youtube.com/watch?v=1JnIU3kLH0c
 
-## Pre-requisities: 
-Following are the instruction to install ORB-SLAM3, I have referenced this [repo](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/master) for the installation in Ubuntu 20.04 along with further changes added by me.
-### Install and setup WSL2 in Windows Machine:
-Here are the steps to install a specific Ubuntu distribution on WSL2 from the Microsoft Store:
-- **Enable WSL2:** Before you install any Linux distribution, make sure you have WSL2 enabled on your Windows machine. You can do this by following the instructions in the official Microsoft documentation ([WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)).
-- **Open Microsoft Store:** Go to the Microsoft Store on your Windows machine.
-- **Search for Ubuntu:** In the search bar at the top right corner of the Microsoft Store, type "Ubuntu" and press Enter.
-- **Select Ubuntu Distro:** You will see various versions of Ubuntu available. Choose the specific version you want to install. For example, if you want Ubuntu 20.04 LTS, select that version.
-- **Install:** Click on the Ubuntu distribution you've selected, then click on the "Get" or "Install" button to begin the installation process.
-- **Launch Ubuntu:** Once the installation is complete, you can launch the Ubuntu distribution from the Start menu or by typing "Ubuntu" in the Windows search bar and selecting it from the results.
-- **Set up Ubuntu:** The first time you launch the Ubuntu distribution, it will take a few moments to set up. Follow the on-screen instructions to set up your username and password.
-- **Update Packages (Recommended):** It's a good practice to update the package lists and upgrade installed packages using the following commands:
-  ```
-  sudo apt-get update && sudo apt-get upgrade
-  ```
-  After completion of ubuntu update, reboot it.
-  ```
-  sudo reboot
-  ```
-Tool for editing scripts:
-```
-sudo apt install gedit
-```
+## Comments: 
+Here are the instructions to install ORB-SLAM3. I referred to the original repository  in the "Original Source" section. However, since the original repository has become deprecated, there were significant conflicts with package versions and dependencies. Therefore, I have made modifications and re-uploaded the modified version of "ORB_SLAM3" in this repository.
 
-### Bash Installation Guide for Dependencies:
+## Installation Procedure:
+I have described two methods to deal with ORB_SLAM3 dependencies:
+
+ 1) Bash-script Installation Guide.
+ 2) Manual Script-by-Script Installation Guide.
+
+You can follow either one.
+
+### 1) Bash-script Installation Guide:
+
 > Go to this directory:
 >```
 >mkdir -p ~/dev && cd ~/dev
@@ -64,12 +52,11 @@ sudo apt install gedit
 > ROS Noetic on an Ubuntu 20.04 system, including switching the GCC and G++ versions, installing
 > necessary dependencies, and verifying the installations.
 
-
-###  OR Manual Installation Guide for Dependencies:
+### 2) Manual Script-by-Script Installation Guide:
 > Alternative method is to install by manual running the commands on the ubuntu terminal. Follow
 > the instruction below:
 
-## Install ORB-SLAM3
+## Build & Install ORB-SLAM3
 Now, we install ORB-SLAM3. Use the ORB_SLAM3 file given in the repository, it is a modded version which works with ROS Noetic
 ```
 cd ~/dev/ORB_SLAM3
