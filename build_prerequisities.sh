@@ -43,7 +43,10 @@ show_loading_animation() {
  }
 
 echo ">> Installing build-essential package..."
-sudo apt-get install -y build-essential gedit pv dialog cmake
+(sudo apt-get install -y build-essential gedit pv dialog cmake > /dev/null 2>&1 ) &
+pid=$!
+show_loading_animation $pid
+wait $pid
 if [ $? -eq 0 ]; then
     echo ">> build-essential packages are installed."
 else
@@ -448,79 +451,79 @@ fi
 source /opt/ros/noetic/setup.bash
 source ~/.bashrc
 
-echo "#######################################################################################################################"
-echo ">>> {Step 4: Installing realsense2 and catkin dependencies}"
-echo ""
+# echo "#######################################################################################################################"
+# echo ">>> {Step 4: Installing realsense2 and catkin dependencies}"
+# echo ""
 
-# Check if librealsense2 is installed using a marker file
-LIBREALSENSE2_MARKER="$HOME/.librealsense2_installed"
-if [ -f "$LIBREALSENSE2_MARKER" ]; then
-    echo "> librealsense2 is already installed"
+# # Check if librealsense2 is installed using a marker file
+# LIBREALSENSE2_MARKER="$HOME/.librealsense2_installed"
+# if [ -f "$LIBREALSENSE2_MARKER" ]; then
+#     echo "> librealsense2 is already installed"
 
-else
-    echo "> Installing dependencies for librealsense2..."
-    (sudo apt-get update 2>&1 ) &
-    pid=$!
-    show_loading_animation $pid
-    wait $pid
-    (sudo apt-get install -y git cmake libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev 2>&1 ) &
-    pid=$!
-    show_loading_animation $pid
-    wait $pid
+# else
+#     echo "> Installing dependencies for librealsense2..."
+#     (sudo apt-get update 2>&1 ) &
+#     pid=$!
+#     show_loading_animation $pid
+#     wait $pid
+#     (sudo apt-get install -y git cmake libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev 2>&1 ) &
+#     pid=$!
+#     show_loading_animation $pid
+#     wait $pid
     
-    if [ $? -eq 0 ]; then
-        echo "> Dependencies for librealsense2 installed successfully"
-    else
-        echo "> Failed to install dependencies for librealsense2"
-        exit 1
-    fi
+#     if [ $? -eq 0 ]; then
+#         echo "> Dependencies for librealsense2 installed successfully"
+#     else
+#         echo "> Failed to install dependencies for librealsense2"
+#         exit 1
+#     fi
 
-    echo "> Cloning and installing librealsense2 from source..."
-    cd ~/dev
-    git clone https://github.com/IntelRealSense/librealsense.git
-    cd librealsense
-    ./scripts/setup_udev_rules.sh
-    ./scripts/patch-realsense-ubuntu-lts.sh
+#     echo "> Cloning and installing librealsense2 from source..."
+#     cd ~/dev
+#     git clone https://github.com/IntelRealSense/librealsense.git
+#     cd librealsense
+#     ./scripts/setup_udev_rules.sh
+#     ./scripts/patch-realsense-ubuntu-lts.sh
     
-    rm -rf build
-    mkdir build && cd build
-    (cmake .. -DCMAKE_BUILD_TYPE=Release 2>&1 ) &
-    pid=$!
-    show_loading_animation $pid
-    wait $pid
-    (make -j4 2>&1 ) &
-    pid=$!
-    show_loading_animation $pid
-    wait $pid
-    (sudo make install 2>&1 ) &
-    pid=$!
-    show_loading_animation $pid
-    wait $pid
-    if [ $? -eq 0 ]; then
-        echo "> librealsense2 installed successfully"
-        touch "$LIBREALSENSE2_MARKER"
-    else
-        echo "> Failed to install librealsense2"
-        exit 1
-    fi
-fi
+#     rm -rf build
+#     mkdir build && cd build
+#     (cmake .. -DCMAKE_BUILD_TYPE=Release 2>&1 ) &
+#     pid=$!
+#     show_loading_animation $pid
+#     wait $pid
+#     (make -j4 2>&1 ) &
+#     pid=$!
+#     show_loading_animation $pid
+#     wait $pid
+#     (sudo make install 2>&1 ) &
+#     pid=$!
+#     show_loading_animation $pid
+#     wait $pid
+#     if [ $? -eq 0 ]; then
+#         echo "> librealsense2 installed successfully"
+#         touch "$LIBREALSENSE2_MARKER"
+#     else
+#         echo "> Failed to install librealsense2"
+#         exit 1
+#     fi
+# fi
 
-# Check and install catkin if not already installed
-if dpkg-query -W ros-noetic-catkin > /dev/null 2>&1; then
-    echo "> ros-noetic-catkin is already installed"
-else
-    echo "> Installing ros-noetic-catkin..."
-    sudo apt-get install -y ros-noetic-catkin
-    if [ $? -eq 0 ]; then
-        echo "> ros-noetic-catkin installed successfully"
-    else
-        echo "> Failed to install ros-noetic-catkin"
-        exit 1
-    fi
-fi
+# # Check and install catkin if not already installed
+# if dpkg-query -W ros-noetic-catkin > /dev/null 2>&1; then
+#     echo "> ros-noetic-catkin is already installed"
+# else
+#     echo "> Installing ros-noetic-catkin..."
+#     sudo apt-get install -y ros-noetic-catkin
+#     if [ $? -eq 0 ]; then
+#         echo "> ros-noetic-catkin installed successfully"
+#     else
+#         echo "> Failed to install ros-noetic-catkin"
+#         exit 1
+#     fi
+# fi
 
 echo "#######################################################################################################################"
-echo ">>> {Step 5: Setting ORBSLAM3 Environment}" 
+echo ">>> {Step 4: Setting ORBSLAM3 Environment}" 
 echo ""
 
 cd ~/dev
