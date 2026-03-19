@@ -42,7 +42,7 @@ show_loading_animation() {
  }
 
 echo ">> Installing build-essential package..."
-(sudo apt-get install -y build-essential gedit pv dialog cmake python3-dev python3.8-dev > /dev/null 2>&1 ) &
+(sudo apt-get install -y build-essential gedit pv dialog cmake > /dev/null 2>&1 ) &
 pid=$!
 show_loading_animation $pid
 wait $pid
@@ -50,6 +50,19 @@ if [ $? -eq 0 ]; then
     echo ">> build-essential packages are installed."
 else
     echo ">> Failed to install build-essential packages."
+    exit 1
+fi
+
+# FIX: Install Python3 dev headers early to prevent Pangolin CMake failure
+echo ">> Installing Python3 development headers..."
+(sudo apt-get install -y python3-dev python3.8-dev > /dev/null 2>&1 ) &
+pid=$!
+show_loading_animation $pid
+wait $pid
+if [ $? -eq 0 ]; then
+    echo ">> Python3 development headers installed."
+else
+    echo ">> Failed to install Python3 development headers."
     exit 1
 fi
 
@@ -84,14 +97,15 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 50
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 50
 echo ""
 
-
-# Switch to G++ and GCC version 9
-echo ">> Switching from Default G++/GCC V11 --> V9..."
+# FIX: Keep GCC 11 active for ALL builds to avoid GLIBCXX_3.4.30 mismatch.
+# The original script switched to GCC 9 here, which caused linker failures
+# in Pangolin and OpenCV when the PPA updated libstdc++6 to a GCC 16 snapshot.
+echo ">> Setting GCC/G++ V11 as default for all builds..."
 sudo update-alternatives --config g++ <<EOF
-2
+1
 EOF
 sudo update-alternatives --config gcc <<EOF
-2
+1
 EOF
 echo ""
 echo ">> Verifying G++ & GCC Version..."
@@ -176,7 +190,6 @@ else
     echo ""
     
     # Installation of Catch2
-
     cd ~/dev
     # Check if the repository already exists
     if [ -d "Catch2" ]; then
@@ -258,8 +271,13 @@ else
     echo "> Building and installing Pangolin..."
     mkdir -p build && cd build
     
-    # Run CMake with loading animation
-    ( cmake .. -DCMAKE_BUILD_TYPE=Release > /dev/null 2>&1 ) &
+    # FIX: Added -DBUILD_PANGOLIN_PYTHON=OFF to avoid Python binding issues,
+    # and -DCMAKE_CXX_FLAGS="-Wno-deprecated-copy -Wno-error" to suppress
+    # GCC 11 treating deprecated-copy warnings in system OpenEXR headers as errors.
+    ( cmake .. \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_PANGOLIN_PYTHON=OFF \
+        -DCMAKE_CXX_FLAGS="-Wno-deprecated-copy -Wno-error" > /dev/null 2>&1 ) &
     pid=$!
     show_loading_animation $pid
     wait $pid
@@ -271,7 +289,7 @@ else
     fi
     
     # Run make with loading animation
-    ( make -j8 > /dev/null 2>&1 ) &
+    ( make -j$(nproc) > /dev/null 2>&1 ) &
     pid=$!
     show_loading_animation $pid
     wait $pid
@@ -394,10 +412,15 @@ else
     echo "> Creating build directory for OpenCV..."
     mkdir -p ~/dev/opencv/build && cd ~/dev/opencv/build
 
-    # Configure the build with CMake
+    # FIX: Added BUILD_TESTS=OFF and BUILD_PERF_TESTS=OFF to skip test binaries.
+    # The G-API async test fails to compile under GCC 11 on Ubuntu 20.04 due to
+    # a missing std::this_thread::sleep_for include in opencv's test suite.
+    # These tests are not needed for ORB-SLAM3.
     echo "> Configuring OpenCV build with CMake..."
     ( cmake -D CMAKE_BUILD_TYPE=RELEASE \
-        -D CMAKE_INSTALL_PREFIX=/usr/local .. > /dev/null 2>&1 ) &
+        -D CMAKE_INSTALL_PREFIX=/usr/local \
+        -D BUILD_TESTS=OFF \
+        -D BUILD_PERF_TESTS=OFF .. > /dev/null 2>&1 ) &
     pid=$!
     show_loading_animation $pid
     wait $pid
@@ -410,7 +433,7 @@ else
 
     # Build and install OpenCV
     echo "> Building and installing OpenCV..."
-    ( make -j8 > /dev/null 2>&1 ) &
+    ( make -j$(nproc) > /dev/null 2>&1 ) &
     pid=$!
     show_loading_animation $pid
     wait $pid
@@ -431,7 +454,10 @@ else
         echo "OpenCV installation failed."
         exit 1
     fi
+
+    sudo ldconfig
 fi
+
 echo "#######################################################################################################################"
 echo ">>ROS Noetic Installation" 
 echo ""
@@ -447,79 +473,12 @@ else
     ./ros_install_noetic.sh
 fi
 
+# FIX: Source ROS setup before building ORB-SLAM3 so catkin is findable by CMake.
+# The script sources ~/.bashrc which does not propagate environment changes to the
+# current shell session. Sourcing setup.bash directly is the reliable workaround.
 source /opt/ros/noetic/setup.bash
+export CMAKE_PREFIX_PATH=/opt/ros/noetic:$CMAKE_PREFIX_PATH
 source ~/.bashrc
-
-# echo "#######################################################################################################################"
-# echo ">>> {Step 4: Installing realsense2 and catkin dependencies}"
-# echo ""
-
-# # Check if librealsense2 is installed using a marker file
-# LIBREALSENSE2_MARKER="$HOME/.librealsense2_installed"
-# if [ -f "$LIBREALSENSE2_MARKER" ]; then
-#     echo "> librealsense2 is already installed"
-
-# else
-#     echo "> Installing dependencies for librealsense2..."
-#     (sudo apt-get update 2>&1 ) &
-#     pid=$!
-#     show_loading_animation $pid
-#     wait $pid
-#     (sudo apt-get install -y git cmake libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev 2>&1 ) &
-#     pid=$!
-#     show_loading_animation $pid
-#     wait $pid
-    
-#     if [ $? -eq 0 ]; then
-#         echo "> Dependencies for librealsense2 installed successfully"
-#     else
-#         echo "> Failed to install dependencies for librealsense2"
-#         exit 1
-#     fi
-
-#     echo "> Cloning and installing librealsense2 from source..."
-#     cd ~/dev
-#     git clone https://github.com/IntelRealSense/librealsense.git
-#     cd librealsense
-#     ./scripts/setup_udev_rules.sh
-#     ./scripts/patch-realsense-ubuntu-lts.sh
-    
-#     rm -rf build
-#     mkdir build && cd build
-#     (cmake .. -DCMAKE_BUILD_TYPE=Release 2>&1 ) &
-#     pid=$!
-#     show_loading_animation $pid
-#     wait $pid
-#     (make -j4 2>&1 ) &
-#     pid=$!
-#     show_loading_animation $pid
-#     wait $pid
-#     (sudo make install 2>&1 ) &
-#     pid=$!
-#     show_loading_animation $pid
-#     wait $pid
-#     if [ $? -eq 0 ]; then
-#         echo "> librealsense2 installed successfully"
-#         touch "$LIBREALSENSE2_MARKER"
-#     else
-#         echo "> Failed to install librealsense2"
-#         exit 1
-#     fi
-# fi
-
-# # Check and install catkin if not already installed
-# if dpkg-query -W ros-noetic-catkin > /dev/null 2>&1; then
-#     echo "> ros-noetic-catkin is already installed"
-# else
-#     echo "> Installing ros-noetic-catkin..."
-#     sudo apt-get install -y ros-noetic-catkin
-#     if [ $? -eq 0 ]; then
-#         echo "> ros-noetic-catkin installed successfully"
-#     else
-#         echo "> Failed to install ros-noetic-catkin"
-#         exit 1
-#     fi
-# fi
 
 echo "#######################################################################################################################"
 echo ">>> {Step 4: Setting ORBSLAM3 Environment}" 
@@ -601,20 +560,9 @@ fi
 source ~/.bashrc
 echo "Sourced ~/.bashrc"
 
-
-# Switch to G++ and GCC version 11
-echo ">> Switching from Default G++/GCC V9 --> V11..."
-sudo update-alternatives --config g++ <<EOF
-1
-EOF
-sudo update-alternatives --config gcc <<EOF
-1
-EOF
 echo ""
-echo ">> Verifying G++ & GCC Version..."
+echo ">> Verifying G++ & GCC Version (should be 11.x)..."
 g++ --version && gcc --version
 echo ""
 
 echo "Setup completed successfully!"
-
-
