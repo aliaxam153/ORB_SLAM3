@@ -72,6 +72,7 @@ chmod +x build.sh
 
 Execute build_ros.sh script:
 ```
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/dev/ORB_SLAM3/Examples/ROS
 chmod +x build_ros.sh
 ./build_ros.sh
 ```
