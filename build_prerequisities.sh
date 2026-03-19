@@ -42,7 +42,7 @@ show_loading_animation() {
  }
 
 echo ">> Installing build-essential package..."
-(sudo apt-get install -y build-essential gedit pv dialog cmake > /dev/null 2>&1 ) &
+(sudo apt-get install -y build-essential gedit pv dialog cmake python3-dev python3.8-dev > /dev/null 2>&1 ) &
 pid=$!
 show_loading_animation $pid
 wait $pid
