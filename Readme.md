@@ -60,6 +60,7 @@ Now, we will install ORB-SLAM3. At this stage, the ORB_SLAM3 file should already
 
 Follow the instructions below:
 ```
+source /opt/ros/noetic/setup.bash
 cd ~/dev/ORB_SLAM3
 ```
 Now simply just run (if you encounter compiler, try to run the this shell script 2 or 3 more time. It works for me.)
